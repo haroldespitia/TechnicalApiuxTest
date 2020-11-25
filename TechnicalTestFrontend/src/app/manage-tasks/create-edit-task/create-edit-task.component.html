@@ -1,0 +1,32 @@
+<div class="m-3">
+    <mat-card-title>{{modality}} tarea</mat-card-title>
+</div>
+<mat-divider></mat-divider>
+
+<div class="m-3">
+
+    <mat-grid-list cols="3" rowHeight="80px" gutterSize="10px">
+
+        <mat-grid-tile [colspan]="2" class="w-100">
+            <mat-form-field appearance="outline" color="accent" class="input-text">
+                <mat-label>Descripción</mat-label>
+                <input matInput placeholder="Descripción" [formControl]="description" required >
+                <mat-error *ngIf="description.invalid">Campo requerido</mat-error>
+                <mat-icon matSuffix>description</mat-icon>
+            </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="1">
+            <mat-checkbox [formControl]="valid">¿Vigente?</mat-checkbox>
+        </mat-grid-tile>
+
+    </mat-grid-list>
+
+</div>
+
+<div mat-dialog-actions class="float-right p-3">
+    <mat-card-actions>
+        <button mat-raised-button color="accent" (click)="saveTask()">{{modality}}</button>
+        <button mat-raised-button mat-dialog-close>Cancelar</button>
+    </mat-card-actions>
+</div>

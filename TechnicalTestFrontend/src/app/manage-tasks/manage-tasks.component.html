@@ -1,0 +1,79 @@
+<div class="mx-auto pt-5">
+    <h1 class="text-center m-3 p-3 text-uppercase">Administración de Tareas</h1>
+
+    <div class="row m-1 float-right">
+        <button matTooltip="Agregar tarea" matTooltipPosition="right" mat-raised-button color="accent"
+            (click)="displayAddTask(-1)">
+            <mat-icon style="font-size: 20px;">add</mat-icon>
+        </button>
+    </div>
+
+    <mat-form-field appearance="fill" color="accent" class="input-text">
+        <mat-label>Buscar...</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Tarea..." #input>
+        <mat-icon matSuffix color="accent">search</mat-icon>
+    </mat-form-field>
+
+    <div class="mat-elevation-z8">
+        <table class="table-hover" mat-table [dataSource]="dataSource" matSort>
+
+            <!-- ID Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-uppercase font-weight-bold">
+                    {{"ID" | uppercase}} </th>
+                <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+            </ng-container>
+
+            <!-- Description Column -->
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-uppercase font-weight-bold">
+                    {{"Descripción" | uppercase}} </th>
+                <td mat-cell *matCellDef="let row"> {{row.description}} </td>
+            </ng-container>
+
+            <!-- Creation Date Column -->
+            <ng-container matColumnDef="creationDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-uppercase font-weight-bold">
+                    {{"Fecha de creación" | uppercase}} </th>
+                <td mat-cell *matCellDef="let row"> {{row.creationDate | date: 'yyyy-MM-dd'}} </td>
+            </ng-container>
+
+            <!-- Color Column -->
+            <ng-container matColumnDef="valid">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-uppercase font-weight-bold">
+                    {{"Vigente" | uppercase}}
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-icon mat-icon-button color="accent" *ngIf="row.valid">done</mat-icon>
+                    <mat-icon mat-icon-button color="warn" *ngIf="!row.valid">close</mat-icon>
+                </td>
+            </ng-container>
+
+            <!-- Options Column -->
+            <ng-container matColumnDef="options">
+                <th class="font-weight-bold" mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{"Opciones" | uppercase}} </th>
+                <td mat-cell *matCellDef="let row">
+                    <div class="row">
+                        <button mat-icon-button color="accent" (click)="displayAddTask(row.id)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" (click)="removeTask(row.id)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+            </tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]" color="accent"></mat-paginator>
+    </div>
+
+</div>
